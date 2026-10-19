@@ -16,12 +16,18 @@ const MIME_TYPES = {
 };
 
 const server = http.createServer((req, res) => {
-  let reqPath = req.url.split('?')[0];
+  let reqPath = decodeURIComponent(req.url.split('?')[0]);
   if (reqPath === '/' || reqPath === '') reqPath = '/index.html';
   const filePath = path.join(__dirname, reqPath);
 
   fs.stat(filePath, (err, stats) => {
     if (err || !stats.isFile()) {
+      const ext = path.extname(filePath).toLowerCase();
+      if (ext && ext !== '.html') {
+        res.writeHead(404, { 'Content-Type': 'text/plain' });
+        res.end('File not found');
+        return;
+      }
       const fallbackPath = path.join(__dirname, 'index.html');
       fs.readFile(fallbackPath, (fbErr, content) => {
         if (fbErr) {
@@ -37,7 +43,10 @@ const server = http.createServer((req, res) => {
 
     const ext = path.extname(filePath).toLowerCase();
     const contentType = MIME_TYPES[ext] || 'application/octet-stream';
-    res.writeHead(200, { 'Content-Type': contentType });
+    res.writeHead(200, {
+      'Content-Type': contentType,
+      'Cache-Control': 'no-cache',
+    });
     fs.createReadStream(filePath).pipe(res);
   });
 });
