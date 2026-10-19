@@ -1,0 +1,1551 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daily Manpower Report – MGMT6110 PS5</title>
+    <meta name="description" content="Daily Manpower Report – MGMT6110 PS5 by Adithi, Group 4. Interactive lecture slide deck with 2x2 agent map, run verification, and reflection." />
+    <meta property="og:title" content="Daily Manpower Report – MGMT6110 PS5" />
+    <meta property="og:description" content="Daily Manpower Report – MGMT6110 PS5 by Adithi, Group 4" />
+    <meta property="og:type" content="website" />
+    
+    <!-- Google Fonts: Inter & Plus Jakarta Sans for premium lecture deck typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <style>
+      :root {
+        --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        --font-mono: 'Fira Code', monospace;
+
+        /* Light Theme (Clean academic lecture slide look) */
+        --bg-main: #f8fafc;
+        --bg-slide: #ffffff;
+        --bg-card: #f1f5f9;
+        --bg-card-hover: #e2e8f0;
+        --border-color: #e2e8f0;
+        --border-subtle: #cbd5e1;
+        --text-primary: #0f172a;
+        --text-secondary: #475569;
+        --text-muted: #64748b;
+        --accent: #2563eb;
+        --accent-light: #eff6ff;
+        --accent-focus: #1d4ed8;
+        --tag-bg: #e0f2fe;
+        --tag-text: #0369a1;
+        --alert-bg: #fef2f2;
+        --alert-border: #fecaca;
+        --alert-text: #b91c1c;
+        --success-bg: #ecfdf5;
+        --success-border: #a7f3d0;
+        --success-text: #047857;
+        --slide-shadow: 0 20px 45px -15px rgba(15, 23, 42, 0.08), 0 0 1px 1px rgba(15, 23, 42, 0.05);
+        --ph-bg: #fef08a;
+        --ph-text: #854d0e;
+        --ph-border: #ca8a04;
+      }
+
+      [data-theme="dark"] {
+        /* Dark Theme (Sophisticated slate deck look) */
+        --bg-main: #090d16;
+        --bg-slide: #0f172a;
+        --bg-card: #1e293b;
+        --bg-card-hover: #334155;
+        --border-color: #1e293b;
+        --border-subtle: #334155;
+        --text-primary: #f8fafc;
+        --text-secondary: #cbd5e1;
+        --text-muted: #94a3b8;
+        --accent: #3b82f6;
+        --accent-light: rgba(59, 130, 246, 0.15);
+        --accent-focus: #60a5fa;
+        --tag-bg: rgba(56, 189, 248, 0.15);
+        --tag-text: #38bdf8;
+        --alert-bg: rgba(239, 68, 68, 0.15);
+        --alert-border: rgba(239, 68, 68, 0.3);
+        --alert-text: #f87171;
+        --success-bg: rgba(16, 185, 129, 0.15);
+        --success-border: rgba(16, 185, 129, 0.3);
+        --success-text: #34d399;
+        --slide-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 1px 1px rgba(255, 255, 255, 0.08);
+        --ph-bg: rgba(234, 179, 8, 0.22);
+        --ph-text: #fef08a;
+        --ph-border: #eab308;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      body {
+        font-family: var(--font-sans);
+        background-color: var(--bg-main);
+        color: var(--text-primary);
+        min-height: 100vh;
+        height: 100vh;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        user-select: text;
+        transition: background-color 0.25s ease, color 0.25s ease;
+      }
+
+      /* Placeholder highlight in yellow */
+      .placeholder {
+        background-color: var(--ph-bg);
+        color: var(--ph-text);
+        padding: 1px 6px;
+        border-radius: 4px;
+        font-weight: 600;
+        border: 1px dashed var(--ph-border);
+        display: inline-block;
+        font-size: 0.92em;
+        line-height: 1.25;
+      }
+
+      /* Header / Slide Deck Chrome */
+      header.deck-header {
+        height: 52px;
+        min-height: 52px;
+        padding: 0 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: var(--bg-slide);
+        border-bottom: 1px solid var(--border-color);
+        z-index: 50;
+      }
+
+      .deck-brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+      }
+
+      .brand-badge {
+        background-color: var(--tag-bg);
+        color: var(--tag-text);
+        padding: 3px 8px;
+        border-radius: 6px;
+        font-size: 0.72rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+
+      .header-controls {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .slide-counter {
+        font-family: var(--font-mono);
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: var(--text-muted);
+        background-color: var(--bg-card);
+        padding: 3px 10px;
+        border-radius: 20px;
+        border: 1px solid var(--border-color);
+      }
+
+      .theme-toggle-btn {
+        background: transparent;
+        border: 1px solid var(--border-color);
+        color: var(--text-primary);
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+      }
+
+      .theme-toggle-btn:hover {
+        background-color: var(--bg-card);
+        border-color: var(--border-subtle);
+      }
+
+      /* Progress Bar at Top */
+      .progress-container {
+        width: 100%;
+        height: 3px;
+        background-color: var(--border-color);
+        position: relative;
+        z-index: 40;
+      }
+
+      .progress-bar {
+        height: 100%;
+        width: 25%;
+        background: linear-gradient(90deg, #2563eb, #38bdf8);
+        transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      /* Main Slide Presentation Stage */
+      main.deck-stage {
+        flex: 1;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px 24px;
+      }
+
+      .slide-viewport {
+        width: 100%;
+        max-width: 1180px;
+        height: 100%;
+        max-height: 740px;
+        background-color: var(--bg-slide);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        box-shadow: var(--slide-shadow);
+        position: relative;
+        overflow-y: auto;
+        overflow-x: hidden;
+        display: none;
+        flex-direction: column;
+        padding: 32px 38px;
+        animation: slideFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      }
+
+      .slide-viewport.active {
+        display: flex;
+      }
+
+      @keyframes slideFadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(8px) scale(0.995);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      /* Slide Typography & Layouts */
+      .slide-header {
+        margin-bottom: 20px;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 12px;
+      }
+
+      .slide-tag {
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--accent);
+        margin-bottom: 4px;
+        display: block;
+      }
+
+      .slide-title {
+        font-size: 1.75rem;
+        font-weight: 800;
+        letter-spacing: -0.025em;
+        line-height: 1.2;
+        color: var(--text-primary);
+      }
+
+      .slide-subtitle {
+        font-size: 0.95rem;
+        color: var(--text-secondary);
+        margin-top: 4px;
+        font-weight: 500;
+      }
+
+      .slide-body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+
+      /* Slide 1 Styles */
+      .slide1-grid {
+        display: grid;
+        grid-template-columns: 1.1fr 1fr;
+        gap: 24px;
+        align-items: stretch;
+      }
+
+      .problem-box {
+        background-color: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 22px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .problem-box-title {
+        font-size: 0.85rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--text-muted);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .problem-text {
+        font-size: 0.95rem;
+        line-height: 1.55;
+        color: var(--text-primary);
+      }
+
+      .output-callout {
+        background-color: var(--accent-light);
+        border-left: 3px solid var(--accent);
+        padding: 12px 14px;
+        border-radius: 0 8px 8px 0;
+        font-size: 0.88rem;
+        line-height: 1.45;
+        color: var(--text-primary);
+        font-weight: 500;
+      }
+
+      .agent-card {
+        background-color: var(--bg-slide);
+        border: 1.5px solid var(--border-color);
+        border-radius: 14px;
+        box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.05);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+
+      .agent-card-header {
+        background-color: var(--bg-card);
+        padding: 12px 18px;
+        border-bottom: 1px solid var(--border-color);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .agent-card-title {
+        font-size: 0.88rem;
+        font-weight: 700;
+        color: var(--text-primary);
+      }
+
+      .agent-card-timestamp {
+        font-family: var(--font-mono);
+        font-size: 0.78rem;
+        color: var(--text-muted);
+      }
+
+      .agent-card-list {
+        padding: 16px 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        font-size: 0.86rem;
+        line-height: 1.45;
+      }
+
+      .agent-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .item-badge {
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        font-weight: 700;
+        width: 22px;
+        height: 22px;
+        min-width: 22px;
+        border-radius: 6px;
+        background-color: var(--tag-bg);
+        color: var(--tag-text);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 1px;
+      }
+
+      .item-content strong {
+        color: var(--text-primary);
+      }
+
+      .item-content {
+        color: var(--text-secondary);
+      }
+
+      /* Slide 2: 2x2 Map + Q1 Styles */
+      .slide2-layout {
+        display: grid;
+        grid-template-columns: 1.15fr 1fr;
+        gap: 24px;
+        height: 100%;
+      }
+
+      .map-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .axis-label-top, .axis-label-bottom {
+        text-align: center;
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+      }
+
+      .grid-and-axes {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex: 1;
+      }
+
+      .axis-label-vertical {
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        text-align: center;
+        padding: 4px 0;
+      }
+
+      .quadrant-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        gap: 10px;
+        flex: 1;
+        min-height: 290px;
+      }
+
+      .quadrant-box {
+        background-color: var(--bg-card);
+        border: 1.5px solid var(--border-color);
+        border-radius: 10px;
+        padding: 14px 16px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .quadrant-box:hover {
+        border-color: var(--accent);
+        transform: translateY(-2px);
+      }
+
+      .quadrant-box.active-quadrant {
+        border-color: var(--accent);
+        background-color: var(--accent-light);
+        box-shadow: 0 0 0 2px var(--accent-light);
+      }
+
+      .quadrant-box.my-agent {
+        border: 2px solid #2563eb;
+        background-color: var(--accent-light);
+      }
+
+      .quadrant-title {
+        font-size: 0.88rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        line-height: 1.3;
+      }
+
+      .agent-here-pin {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        background: #2563eb;
+        color: white;
+        font-size: 0.72rem;
+        font-weight: 700;
+        padding: 3px 8px;
+        border-radius: 20px;
+        margin-top: 8px;
+        box-shadow: 0 2px 8px rgba(37, 99, 235, 0.35);
+        animation: pulsePin 2s infinite ease-in-out;
+      }
+
+      @keyframes pulsePin {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.04); }
+      }
+
+      .explanation-banner {
+        background-color: var(--bg-card);
+        border: 1px solid var(--border-subtle);
+        border-radius: 8px;
+        padding: 10px 14px;
+        font-size: 0.82rem;
+        line-height: 1.4;
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .q1-panel {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        overflow-y: auto;
+        padding-right: 4px;
+      }
+
+      .q1-item {
+        background-color: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 12px 14px;
+        font-size: 0.84rem;
+        line-height: 1.45;
+      }
+
+      .q1-item-header {
+        font-weight: 700;
+        color: var(--accent);
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        margin-bottom: 4px;
+      }
+
+      .q1-item-body {
+        color: var(--text-secondary);
+      }
+
+      /* Slide 3: Runs and Before/After Toggle */
+      .slide3-layout {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+
+      .runs-tab-bar {
+        display: flex;
+        gap: 8px;
+        background-color: var(--bg-card);
+        padding: 4px;
+        border-radius: 10px;
+        border: 1px solid var(--border-color);
+        width: fit-content;
+      }
+
+      .run-tab-btn {
+        background: transparent;
+        border: none;
+        padding: 6px 14px;
+        border-radius: 7px;
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: var(--text-secondary);
+        cursor: pointer;
+        transition: all 0.15s ease;
+      }
+
+      .run-tab-btn.active {
+        background-color: var(--bg-slide);
+        color: var(--text-primary);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      }
+
+      .run-panel {
+        display: none;
+        background-color: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 16px;
+      }
+
+      .run-panel.active {
+        display: block;
+      }
+
+      .run-meta {
+        font-size: 0.9rem;
+        margin-bottom: 12px;
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      .run-stat-badge {
+        font-family: var(--font-mono);
+        font-size: 0.78rem;
+        padding: 2px 8px;
+        border-radius: 6px;
+        background-color: var(--tag-bg);
+        color: var(--tag-text);
+        font-weight: 600;
+      }
+
+      .run-images-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 14px;
+      }
+
+      /* Image / Placeholder Styles */
+      .img-card {
+        background-color: var(--bg-slide);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .img-frame {
+        position: relative;
+        min-height: 140px;
+        background-color: var(--bg-main);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+
+      .img-frame img {
+        width: 100%;
+        height: auto;
+        max-height: 200px;
+        object-fit: contain;
+        display: block;
+      }
+
+      .img-placeholder-box {
+        padding: 20px 16px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        gap: 8px;
+        width: 100%;
+        min-height: 140px;
+        background: repeating-linear-gradient(
+          45deg,
+          var(--bg-card),
+          var(--bg-card) 10px,
+          var(--bg-main) 10px,
+          var(--bg-main) 20px
+        );
+        border: 1.5px dashed var(--border-subtle);
+      }
+
+      .ph-icon {
+        width: 28px;
+        height: 28px;
+        color: var(--text-muted);
+      }
+
+      .ph-filename {
+        font-family: var(--font-mono);
+        font-size: 0.78rem;
+        font-weight: 600;
+        color: var(--text-primary);
+        background: var(--bg-slide);
+        padding: 2px 8px;
+        border-radius: 4px;
+        border: 1px solid var(--border-color);
+      }
+
+      .img-caption {
+        padding: 8px 12px;
+        font-size: 0.75rem;
+        color: var(--text-muted);
+        border-top: 1px solid var(--border-color);
+        background-color: var(--bg-slide);
+      }
+
+      /* Before / After Toggle Section */
+      .toggle-box {
+        background-color: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 16px 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .toggle-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .toggle-label {
+        font-size: 0.85rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--text-muted);
+      }
+
+      .segmented-switch {
+        display: inline-flex;
+        background-color: var(--bg-slide);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 3px;
+        gap: 2px;
+      }
+
+      .seg-btn {
+        background: transparent;
+        border: none;
+        padding: 4px 14px;
+        border-radius: 6px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        cursor: pointer;
+        color: var(--text-muted);
+        transition: all 0.2s ease;
+      }
+
+      .seg-btn.active {
+        background-color: var(--accent);
+        color: #ffffff;
+      }
+
+      .expectation-text {
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+        font-style: italic;
+      }
+
+      .subject-display-card {
+        padding: 12px 16px;
+        border-radius: 8px;
+        font-family: var(--font-mono);
+        font-size: 0.88rem;
+        border: 1.5px solid var(--border-color);
+        background-color: var(--bg-slide);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.2s ease;
+      }
+
+      .subject-display-card.after-state {
+        border-color: #f87171;
+        background-color: var(--alert-bg);
+      }
+
+      .fix-detail {
+        font-size: 0.82rem;
+        color: var(--text-secondary);
+        line-height: 1.45;
+      }
+
+      /* Slide 4: Log and Reflection */
+      .slide4-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+      }
+
+      .log-card {
+        background-color: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 16px 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .log-card-title {
+        font-size: 0.82rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--accent);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .log-card-body {
+        font-size: 0.85rem;
+        line-height: 1.5;
+        color: var(--text-secondary);
+      }
+
+      .reflection-card {
+        grid-column: span 2;
+        background: linear-gradient(135deg, var(--bg-card), var(--bg-slide));
+        border: 1.5px solid var(--border-subtle);
+        border-radius: 12px;
+        padding: 18px 20px;
+      }
+
+      .reflection-title {
+        font-size: 0.85rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--tag-text);
+        margin-bottom: 6px;
+      }
+
+      .reflection-body {
+        font-size: 0.92rem;
+        line-height: 1.6;
+        color: var(--text-primary);
+      }
+
+      /* Footer Navigation Bar */
+      footer.deck-footer {
+        height: 58px;
+        min-height: 58px;
+        padding: 0 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: var(--bg-slide);
+        border-top: 1px solid var(--border-color);
+        z-index: 50;
+      }
+
+      .keyboard-hint {
+        font-size: 0.78rem;
+        color: var(--text-muted);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .kbd {
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        background-color: var(--bg-card);
+        border: 1px solid var(--border-subtle);
+        padding: 1px 6px;
+        border-radius: 4px;
+        color: var(--text-primary);
+      }
+
+      .nav-buttons {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .nav-btn {
+        background-color: var(--bg-card);
+        border: 1px solid var(--border-color);
+        color: var(--text-primary);
+        font-size: 0.84rem;
+        font-weight: 600;
+        padding: 8px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        transition: all 0.2s ease;
+      }
+
+      .nav-btn:hover:not(:disabled) {
+        background-color: var(--accent);
+        color: #ffffff;
+        border-color: var(--accent);
+      }
+
+      .nav-btn:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+
+      .slide-dots {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: var(--border-subtle);
+        cursor: pointer;
+        transition: all 0.25s ease;
+      }
+
+      .dot.active {
+        width: 24px;
+        border-radius: 12px;
+        background-color: var(--accent);
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 900px) {
+        body {
+          overflow-y: auto;
+          height: auto;
+        }
+
+        main.deck-stage {
+          padding: 12px 10px;
+          min-height: calc(100vh - 110px);
+        }
+
+        .slide-viewport {
+          max-height: none;
+          padding: 20px 16px;
+        }
+
+        .slide1-grid, .slide2-layout, .slide4-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .reflection-card {
+          grid-column: span 1;
+        }
+
+        .keyboard-hint {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Top Header Navigation -->
+    <header class="deck-header">
+      <div class="deck-brand">
+        <span class="brand-badge">MGMT6110 PS5</span>
+        <span>Daily Manpower Report</span>
+      </div>
+
+      <div class="header-controls">
+        <span class="slide-counter" id="slideIndicator">01 / 04</span>
+        <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle light or dark theme" title="Toggle Theme">
+          <svg id="moonIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+          <svg id="sunIcon" style="display:none;" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- Top Progress Bar -->
+    <div class="progress-container">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Presentation Slide Viewport Stage -->
+    <main class="deck-stage">
+
+      <!-- SLIDE 1: Daily Manpower Report -->
+      <section class="slide-viewport active" id="slide-1" aria-label="Slide 1: Daily Manpower Report">
+        <div class="slide-header">
+          <span class="slide-tag">Slide 01 · Overview</span>
+          <h1 class="slide-title">Daily Manpower Report</h1>
+          <p class="slide-subtitle">MGMT6110 PS5 · Adithi · Group 4</p>
+        </div>
+
+        <div class="slide-body">
+          <div class="slide1-grid">
+            <!-- Business Problem & Output Statement -->
+            <div class="problem-box">
+              <div class="problem-box-title">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="8" x2="12" y2="12"></line>
+                  <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+                The Business Problem
+              </div>
+              <p class="problem-text">
+                Every morning, someone in HR compiles the manpower report by hand: pulling punch data, matching it against approved leave, and working out who is present, on leave or absent. That report has to reach the time office, the manpower head and leadership before the day starts. It is repetitive, error-prone and late on busy days. My agent puts that daily manpower view straight into their inbox, every morning, with no manual work.
+              </p>
+              <div class="output-callout">
+                <strong>Output:</strong> a daily manpower report in the inbox: headcount, present, on leave, unplanned absence and absenteeism %, flagged when it crosses the limit.
+              </div>
+            </div>
+
+            <!-- Agent Card -->
+            <div class="agent-card">
+              <div class="agent-card-header">
+                <span class="agent-card-title">My agent card | Daily Manpower Report</span>
+                <span class="agent-card-timestamp">finished 19 Oct 2026, 2:45 PM</span>
+              </div>
+              <div class="agent-card-list">
+                <div class="agent-item">
+                  <span class="item-badge">1</span>
+                  <div class="item-content">
+                    <strong>The job:</strong> Emails HR a daily manpower report (headcount, present, on leave, unplanned absence, absenteeism %).
+                  </div>
+                </div>
+                <div class="agent-item">
+                  <span class="item-badge">2</span>
+                  <div class="item-content">
+                    <strong>The trigger:</strong> A new date row in the Daily Report tab of the Manpower Data Google Sheet (added each weekday at 10 AM by a schedule).
+                  </div>
+                </div>
+                <div class="agent-item">
+                  <span class="item-badge">3</span>
+                  <div class="item-content">
+                    <strong>The tools:</strong> Google Sheets (New Spreadsheet Row) and Gmail (Send Email).
+                  </div>
+                </div>
+                <div class="agent-item">
+                  <span class="item-badge">4</span>
+                  <div class="item-content">
+                    <strong>It must never:</strong> email anyone except HR. Setting: the To field is fixed to one HR address.
+                  </div>
+                </div>
+                <div class="agent-item">
+                  <span class="item-badge">5</span>
+                  <div class="item-content">
+                    <strong>Where a person checks:</strong> The HR executive checks one day's numbers against attendance and leave records every Friday.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 2: Where it sits (2x2 Map + Q1) -->
+      <section class="slide-viewport" id="slide-2" aria-label="Slide 2: Where it sits">
+        <div class="slide-header">
+          <span class="slide-tag">Slide 02 · Analysis</span>
+          <h2 class="slide-title">Where it sits: 2x2 Map &amp; Q1</h2>
+          <p class="slide-subtitle">Positioning the agent on task determinism and human-AI collaboration</p>
+        </div>
+
+        <div class="slide-body">
+          <div class="slide2-layout">
+            <!-- 2x2 Grid -->
+            <div class="map-wrapper">
+              <div class="axis-label-top">Must be done together ↑</div>
+              <div class="grid-and-axes">
+                <div class="axis-label-vertical">← Has a right answer</div>
+                <div class="quadrant-grid">
+                  <!-- Quadrant 1: Top-Left -->
+                  <div class="quadrant-box" data-quadrant="tl" onclick="selectQuadrant('tl')">
+                    <span class="quadrant-title">A person leads, AI inside</span>
+                    <span style="font-size:0.75rem; color:var(--text-muted);">Top-Left</span>
+                  </div>
+                  <!-- Quadrant 2: Top-Right -->
+                  <div class="quadrant-box" data-quadrant="tr" onclick="selectQuadrant('tr')">
+                    <span class="quadrant-title">Agents run it, a person judges</span>
+                    <span style="font-size:0.75rem; color:var(--text-muted);">Top-Right</span>
+                  </div>
+                  <!-- Quadrant 3: Bottom-Left (My Agent) -->
+                  <div class="quadrant-box my-agent active-quadrant" data-quadrant="bl" onclick="selectQuadrant('bl')">
+                    <div>
+                      <span class="quadrant-title">AI alone, with checks</span>
+                      <div><span class="agent-here-pin">★ My agent is here</span></div>
+                    </div>
+                    <span style="font-size:0.75rem; color:var(--text-muted); margin-top:6px;">Bottom-Left</span>
+                  </div>
+                  <!-- Quadrant 4: Bottom-Right -->
+                  <div class="quadrant-box" data-quadrant="br" onclick="selectQuadrant('br')">
+                    <span class="quadrant-title">A person decides, AI alongside</span>
+                    <span style="font-size:0.75rem; color:var(--text-muted);">Bottom-Right</span>
+                  </div>
+                </div>
+                <div class="axis-label-vertical">No single right answer →</div>
+              </div>
+              <div class="axis-label-bottom">↓ Either can do it alone</div>
+
+              <!-- Interactive Explanation Banner -->
+              <div class="explanation-banner" id="quadrantExplainer">
+                <strong id="quadrantName">AI alone, with checks:</strong>
+                <span id="quadrantText">Counting who is present, on leave and absent has a right answer you can check, and either HR or the agent could do it alone.</span>
+              </div>
+            </div>
+
+            <!-- Q1 Questions Panel -->
+            <div class="q1-panel">
+              <div class="q1-item">
+                <div class="q1-item-header">(a) Quadrant</div>
+                <div class="q1-item-body">
+                  <strong>AI alone, with checks.</strong>
+                </div>
+              </div>
+
+              <div class="q1-item">
+                <div class="q1-item-header">(b) Right Answer &amp; Autonomy</div>
+                <div class="q1-item-body">
+                  <strong>Right answer:</strong> yes, the counts can be checked against punch and leave records (19 Oct: 92 present, 3 on leave, 5 unplanned, matching the records).<br />
+                  <strong>Either can do it alone:</strong> HR could count by hand; no judgement needed.
+                </div>
+              </div>
+
+              <div class="q1-item">
+                <div class="q1-item-header">(c) The Person in the Loop</div>
+                <div class="q1-item-body">
+                  The HR executive spot-checks one day's numbers every Friday. The agent only reads and reports; it never changes records or decides. If it recommended actions on high-absence days, it would move right on the map.
+                </div>
+              </div>
+
+              <div class="q1-item">
+                <div class="q1-item-header">(d) Group View</div>
+                <div class="q1-item-body">
+                  <span class="placeholder">[My view of my group's placements.]</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 3: Runs and the fix -->
+      <section class="slide-viewport" id="slide-3" aria-label="Slide 3: Runs and the fix">
+        <div class="slide-header">
+          <span class="slide-tag">Slide 03 · Verification &amp; Iteration</span>
+          <h2 class="slide-title">Runs and the Fix</h2>
+          <p class="slide-subtitle">Test verification, edge cases, and subject-line visibility improvement</p>
+        </div>
+
+        <div class="slide-body">
+          <div class="slide3-layout">
+            <!-- Run Tabs -->
+            <div class="runs-tab-bar" role="tablist">
+              <button class="run-tab-btn active" onclick="switchRunTab(1)" id="tab-btn-1" role="tab">Run 1 – 19 Oct</button>
+              <button class="run-tab-btn" onclick="switchRunTab(2)" id="tab-btn-2" role="tab">Run 2 – 20 Oct (Tricky)</button>
+              <button class="run-tab-btn" onclick="switchRunTab(3)" id="tab-btn-3" role="tab">Run 3 – 20 Oct (Retest)</button>
+            </div>
+
+            <!-- Run 1 Content -->
+            <div class="run-panel active" id="run-panel-1">
+              <div class="run-meta">
+                <span><strong>Run 1 – 19 Oct:</strong> 8.0% absent (92 present, 3 leave, 5 unplanned).</span>
+                <span class="run-stat-badge" style="background:#ecfdf5; color:#047857; border:1px solid #a7f3d0;">✓ Matched the Answer Key</span>
+              </div>
+              <div class="run-images-grid">
+                <div class="img-card">
+                  <div class="img-frame">
+                    <img src="run1-email.png" alt="Run 1 Email" onerror="showPlaceholder(this, 'run1-email.png', 'Run 1 Email Notification delivered to HR inbox')" />
+                  </div>
+                  <div class="img-caption">run1-email.png – HR inbox report email</div>
+                </div>
+                <div class="img-card">
+                  <div class="img-frame">
+                    <img src="run1-history.png" alt="Run 1 Zap History" onerror="showPlaceholder(this, 'run1-history.png', 'Run 1 Zapier run log confirming successful execution')" />
+                  </div>
+                  <div class="img-caption">run1-history.png – Zapier task execution history</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Run 2 Content -->
+            <div class="run-panel" id="run-panel-2">
+              <div class="run-meta">
+                <span><strong>Run 2 – 20 Oct (tricky case):</strong> <span class="placeholder">[12.0% absent, no warning]</span></span>
+                <span class="run-stat-badge" style="background:#fef2f2; color:#b91c1c; border:1px solid #fecaca;">Exceeded Limit (Unflagged)</span>
+              </div>
+              <div class="run-images-grid">
+                <div class="img-card">
+                  <div class="img-frame">
+                    <img src="run2-email.png" alt="Run 2 Email" onerror="showPlaceholder(this, 'run2-email.png', 'Run 2 Email showing 12.0% absent with standard subject line')" />
+                  </div>
+                  <div class="img-caption">run2-email.png – Report sent without abnormal alert in subject</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Run 3 Content -->
+            <div class="run-panel" id="run-panel-3">
+              <div class="run-meta">
+                <span><strong>Run 3 – 20 Oct retest after fix:</strong> <span class="placeholder">[⚠ ABOVE 10% in subject]</span></span>
+                <span class="run-stat-badge" style="background:#fef2f2; color:#b91c1c; border:1px solid #fecaca;">⚠ Warning Flag Active</span>
+              </div>
+              <div class="run-images-grid">
+                <div class="img-card">
+                  <div class="img-frame">
+                    <img src="run3-email.png" alt="Run 3 Email" onerror="showPlaceholder(this, 'run3-email.png', 'Run 3 Email showing prominent ⚠ ABOVE 10% warning prefix')" />
+                  </div>
+                  <div class="img-caption">run3-email.png – Rerun email with warning badge in subject</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Before / After Toggle Section -->
+            <div class="toggle-box">
+              <div class="toggle-header">
+                <span class="toggle-label">Interactive Fix Comparison</span>
+                <div class="segmented-switch">
+                  <button class="seg-btn active" id="segBefore" onclick="setBeforeAfter('before')">Before Fix</button>
+                  <button class="seg-btn" id="segAfter" onclick="setBeforeAfter('after')">After Fix</button>
+                </div>
+              </div>
+
+              <p class="expectation-text">
+                <strong>Expectation (written before the run):</strong> HR should spot an above-10% day from the subject line alone.
+              </p>
+
+              <!-- Live Email Subject Card -->
+              <div class="subject-display-card" id="subjectDisplay">
+                <span style="color:var(--text-muted); font-size:0.75rem; text-transform:uppercase;">Subject:</span>
+                <span id="subjectText">Daily Manpower Report – 2026-10-20 – 12.0% absent</span>
+              </div>
+
+              <div class="fix-detail" id="fixExplanation">
+                <strong>Current State:</strong> The subject said 12.0% absent but nothing marked it as unusual.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 4: Log and reflection -->
+      <section class="slide-viewport" id="slide-4" aria-label="Slide 4: Log and reflection">
+        <div class="slide-header">
+          <span class="slide-tag">Slide 04 · Meta-Learning</span>
+          <h2 class="slide-title">Collaboration Log &amp; Reflection</h2>
+          <p class="slide-subtitle">AI delegation, verification methods, errors caught, and evaluation</p>
+        </div>
+
+        <div class="slide-body">
+          <div class="slide4-grid">
+            <!-- Delegated to AI -->
+            <div class="log-card">
+              <div class="log-card-title">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"></path>
+                  <path d="M12 6v6l4 2"></path>
+                </svg>
+                Delegated to AI
+              </div>
+              <p class="log-card-body">
+                Claude helped choose the use case, design the sheet formulas, generate fictional data and draft content; Google AI Studio built this page.
+              </p>
+            </div>
+
+            <!-- Checked -->
+            <div class="log-card">
+              <div class="log-card-title">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                  <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+                Checked
+              </div>
+              <p class="log-card-body">
+                Every email against the sheet's Answer Key and Zap history.
+              </p>
+            </div>
+
+            <!-- Errors caught -->
+            <div class="log-card">
+              <div class="log-card-title">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon>
+                  <line x1="12" y1="8" x2="12" y2="12"></line>
+                  <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+                Errors Caught
+              </div>
+              <p class="log-card-body">
+                The AI gave the wrong day of the week; it told me to delete test rows, then corrected itself; my schedule showed UTC because Singapore time was set on a different Zapier account.
+              </p>
+            </div>
+
+            <!-- Time and cost -->
+            <div class="log-card">
+              <div class="log-card-title">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"></path>
+                  <line x1="12" y1="6" x2="12" y2="8"></line>
+                  <line x1="12" y1="16" x2="12" y2="18"></line>
+                </svg>
+                Time and Cost
+              </div>
+              <p class="log-card-body">
+                6 hours, $0 (Zapier free plan).
+              </p>
+            </div>
+
+            <!-- Reflection -->
+            <div class="reflection-card">
+              <div class="reflection-title">Reflection</div>
+              <p class="reflection-body">
+                Counting attendance fitted the agent because the answer is checkable. It failed where a number needed context: 12% looked normal until I added a status flag. With a paid plan I'd pull live punch data and add a team breakdown.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Bottom Navigation Footer -->
+    <footer class="deck-footer">
+      <div class="keyboard-hint">
+        Navigate with <span class="kbd">←</span> <span class="kbd">→</span> or <span class="kbd">Space</span>
+      </div>
+
+      <!-- Slide Dots Indicator -->
+      <div class="slide-dots" id="dotsContainer">
+        <span class="dot active" onclick="goToSlide(1)" title="Slide 1"></span>
+        <span class="dot" onclick="goToSlide(2)" title="Slide 2"></span>
+        <span class="dot" onclick="goToSlide(3)" title="Slide 3"></span>
+        <span class="dot" onclick="goToSlide(4)" title="Slide 4"></span>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="nav-buttons">
+        <button class="nav-btn" id="prevBtn" onclick="prevSlide()" disabled>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+          Previous
+        </button>
+        <button class="nav-btn" id="nextBtn" onclick="nextSlide()">
+          Next
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </div>
+    </footer>
+
+    <!-- Pure Vanilla JavaScript -->
+    <script>
+      // Slide Navigation State
+      let currentSlide = 1;
+      const totalSlides = 4;
+
+      const slideIndicator = document.getElementById('slideIndicator');
+      const progressBar = document.getElementById('progressBar');
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      const dots = document.querySelectorAll('.dot');
+
+      function updateSlideView() {
+        // Toggle viewports
+        for (let i = 1; i <= totalSlides; i++) {
+          const slideEl = document.getElementById(`slide-${i}`);
+          if (slideEl) {
+            slideEl.classList.toggle('active', i === currentSlide);
+          }
+        }
+
+        // Update Dots
+        dots.forEach((dot, index) => {
+          dot.classList.toggle('active', index + 1 === currentSlide);
+        });
+
+        // Update indicator & progress bar
+        slideIndicator.textContent = `0${currentSlide} / 0${totalSlides}`;
+        progressBar.style.width = `${(currentSlide / totalSlides) * 100}%`;
+
+        // Update button states
+        prevBtn.disabled = currentSlide === 1;
+        nextBtn.disabled = currentSlide === totalSlides;
+      }
+
+      function goToSlide(n) {
+        if (n >= 1 && n <= totalSlides) {
+          currentSlide = n;
+          updateSlideView();
+        }
+      }
+
+      function nextSlide() {
+        if (currentSlide < totalSlides) {
+          currentSlide++;
+          updateSlideView();
+        }
+      }
+
+      function prevSlide() {
+        if (currentSlide > 1) {
+          currentSlide--;
+          updateSlideView();
+        }
+      }
+
+      // Keyboard navigation
+      window.addEventListener('keydown', (e) => {
+        // Ignore if user is inside an input
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+        if (e.key === 'ArrowRight' || e.key === 'PageDown' || (e.key === ' ' && !e.shiftKey)) {
+          e.preventDefault();
+          nextSlide();
+        } else if (e.key === 'ArrowLeft' || e.key === 'PageUp' || (e.key === ' ' && e.shiftKey)) {
+          e.preventDefault();
+          prevSlide();
+        } else if (e.key === 'Home') {
+          e.preventDefault();
+          goToSlide(1);
+        } else if (e.key === 'End') {
+          e.preventDefault();
+          goToSlide(totalSlides);
+        }
+      });
+
+      // Quadrant 2x2 Interactive Explanations
+      const quadrantData = {
+        tl: {
+          name: "A person leads, AI inside",
+          text: "Complex judgement tasks where a person directs strategy while AI handles embedded sub-steps."
+        },
+        tr: {
+          name: "Agents run it, a person judges",
+          text: "Open-ended or generative workflows where autonomous agents synthesize outputs and humans evaluate the final result."
+        },
+        bl: {
+          name: "AI alone, with checks",
+          text: "Counting who is present, on leave and absent has a right answer you can check, and either HR or the agent could do it alone."
+        },
+        br: {
+          name: "A person decides, AI alongside",
+          text: "Subjective decisions where AI offers real-time suggestions or perspectives, but the human retains authority."
+        }
+      };
+
+      function selectQuadrant(key) {
+        document.querySelectorAll('.quadrant-box').forEach(box => {
+          box.classList.remove('active-quadrant');
+        });
+        const selectedBox = document.querySelector(`.quadrant-box[data-quadrant="${key}"]`);
+        if (selectedBox) selectedBox.classList.add('active-quadrant');
+
+        const info = quadrantData[key];
+        if (info) {
+          document.getElementById('quadrantName').textContent = info.name + ": ";
+          document.getElementById('quadrantText').textContent = info.text;
+        }
+      }
+
+      // Run Tabs Switcher
+      function switchRunTab(tabNum) {
+        for (let i = 1; i <= 3; i++) {
+          const btn = document.getElementById(`tab-btn-${i}`);
+          const panel = document.getElementById(`run-panel-${i}`);
+          if (btn) btn.classList.toggle('active', i === tabNum);
+          if (panel) panel.classList.toggle('active', i === tabNum);
+        }
+      }
+
+      // Before / After Fix Toggle
+      function setBeforeAfter(state) {
+        const segBefore = document.getElementById('segBefore');
+        const segAfter = document.getElementById('segAfter');
+        const subjectDisplay = document.getElementById('subjectDisplay');
+        const subjectText = document.getElementById('subjectText');
+        const fixExplanation = document.getElementById('fixExplanation');
+
+        if (state === 'before') {
+          segBefore.classList.add('active');
+          segAfter.classList.remove('active');
+          subjectDisplay.classList.remove('after-state');
+          subjectText.textContent = "Daily Manpower Report – 2026-10-20 – 12.0% absent";
+          fixExplanation.innerHTML = "<strong>Before:</strong> The subject said 12.0% absent but nothing marked it as unusual.";
+        } else {
+          segBefore.classList.remove('active');
+          segAfter.classList.add('active');
+          subjectDisplay.classList.add('after-state');
+          subjectText.textContent = "⚠ ABOVE 10% – Daily Manpower Report – 2026-10-20 – 12.0% absent";
+          fixExplanation.innerHTML = "<strong>Fix:</strong> Added a Status column that shows \"⚠ ABOVE 10%\" when absenteeism is over 10%, and put it at the start of the subject.";
+        }
+      }
+
+      // Image Fallback Handling
+      function showPlaceholder(imgElement, filename, caption) {
+        const frame = imgElement.parentElement;
+        imgElement.style.display = 'none';
+
+        const placeholder = document.createElement('div');
+        placeholder.className = 'img-placeholder-box';
+        placeholder.innerHTML = `
+          <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+            <polyline points="21 15 16 10 5 21"></polyline>
+          </svg>
+          <span class="ph-filename">${filename}</span>
+          <span style="font-size:0.75rem; color:var(--text-muted); max-width:260px; line-height:1.35;">${caption}</span>
+        `;
+        frame.appendChild(placeholder);
+      }
+
+      // Theme Toggle (Light / Dark)
+      const themeToggleBtn = document.getElementById('themeToggleBtn');
+      const sunIcon = document.getElementById('sunIcon');
+      const moonIcon = document.getElementById('moonIcon');
+
+      function setTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        if (theme === 'dark') {
+          moonIcon.style.display = 'none';
+          sunIcon.style.display = 'block';
+        } else {
+          moonIcon.style.display = 'block';
+          sunIcon.style.display = 'none';
+        }
+        try {
+          localStorage.setItem('deck-theme', theme);
+        } catch (e) {}
+      }
+
+      themeToggleBtn.addEventListener('click', () => {
+        const current = document.documentElement.getAttribute('data-theme') || 'light';
+        setTheme(current === 'light' ? 'dark' : 'light');
+      });
+
+      // Initialize theme preference
+      try {
+        const savedTheme = localStorage.getItem('deck-theme');
+        if (savedTheme) {
+          setTheme(savedTheme);
+        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          setTheme('dark');
+        }
+      } catch (e) {}
+
+      // Initialize slide view
+      updateSlideView();
+    </script>
+  </body>
+</html>

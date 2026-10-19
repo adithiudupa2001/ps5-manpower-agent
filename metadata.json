@@ -1,0 +1,6 @@
+{
+  "name": "Daily Manpower Report - MGMT6110",
+  "description": "Interactive lecture slide deck for Daily Manpower Report (MGMT6110 Problem Set 5) featuring 2x2 agent map, calculator, Zapier automation flow, and run history.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
